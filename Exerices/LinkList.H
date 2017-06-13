@@ -1,65 +1,126 @@
 //单链表结构类型定义.h
 #ifndef LinkList_H
 #define LinkList_H
-
 #include <iostream>
-
+#include <malloc.h>
 typedef char datatype;
-typedef struct node {
+typedef struct node
+{
     datatype data;
     struct node *next;
-} LinkList;
-
+} Node, LinkList;
 
 //建立单链表.h
-void creat(LinkList *&head)
+void Creat(LinkList *head)
 //采用尾插法建立具有头结点的单链表
-//字符串输入，以*结尾
 {
-    char ch;
-    LinkList *s, *r;
-    head = new LinkList;
-    r = head;
-    while ((ch = getchar()) != '*') {
-        s = new LinkList;
-        s->data = ch;
-        r->next = s;
-        r = s;
-    }
-    r->next = NULL;
+    head = (LinkList *) malloc(sizeof(Node));
+    head->next = NULL;
+    //head->data = NULL;
 }
 
+//在第i个位置插入元素。
+bool Insert(LinkList *L, int i, datatype e)
+{
+    int j = 1;
+    LinkList *p, *s;
+    p = L;
+    while (p && j < i)
+    {
+        p = p->next;
+        ++j;
+    }
+    if (!p || j > i)
+        //j>i只有可能在i<1情况下，也就是用户输入错误。
+        return false;
+    s = (LinkList *) malloc(sizeof(Node));
+    s->data = e;
+    s->next = p->next;
+    p->next = s;
+    return true;
+}
+
+//插入元素到队尾
+bool Insert(LinkList *L, datatype e)
+{
+    LinkList *p, *s;
+    p = L;
+    while (p)
+    {
+        p = p->next;
+    }
+    s = (LinkList *) malloc(sizeof(Node));
+    s->data = e;
+    s->next = NULL;
+    p->next = s;
+    return true;
+}
+//删除第i个元素
+bool Delete(LinkList *L, int i, datatype *e)
+{
+    int j = 1;
+    LinkList *p, *s;
+    p = L;
+    while (p->next && j < i)
+    {
+        p = p->next;
+        ++j;
+    }
+    if (!p->next || j > i)
+        return false;
+    s = p->next;
+    p->next = s->next;
+    *e = s->data;
+    free(s);
+    return true;
+
+}
 //输出单链表
-void print(LinkList *head) {
+void print(LinkList *head)
+{
     LinkList *p = head->next;
-    while (p != NULL) {
+    while (p != NULL)
+    {
         std::cout << p->data << " ";
         p = p->next;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
-
-//单链表逆置.h
-
+//求单链表长度.h
+int length(LinkList *head)
+{
+    LinkList *p = head->next;
+    int n = 0;
+    while (p != NULL)
+    {
+        n++;
+        p = p->next;
+    }
+    return n;
+}
 
 //------------------------------循环链表-------------------------------
-void print2(linklist*head)
+void print2(LinkList *head)
 //输出循环链表
-{  linklist *p=head->next;
-    while(p!=head)
-    {  cout<<p->data;
-        p=p->next;
+{
+    LinkList *p = head->next;
+    while (p != head)
+    {
+        std::cout << p->data;
+        p = p->next;
     }
-    cout<<endl;
+    std::cout << std::endl;
 }
 
 //在循环链表中插入.h
-void insert(linklist*h,linklist*p)
-{  linklist *q=h;
-    while(q->next!=h) q=q->next;
-    q->next=p;
-    p->next=h;
+void insert(LinkList *h, LinkList *p)
+{
+    LinkList *q = h;
+    while (q->next != h)
+        q = q->next;
+    q->next = p;
+    p->next = h;
 }
 
 //------------------------------循环链表-------------------------------

@@ -29,14 +29,10 @@ void creat(SequenList *&L)
 void print(SequenList *L)
 {
     for (int i = 0; i < L->last; i++)
-        cout << L->data[i] << " ";
-    cout << endl;
+        std::cout << L->data[i] << " ";
+    std::cout << endl;
 }
 
-//顺序表逆置.H
-void invert(SequenList *L)
-{
 
-}
 
 #endif
